@@ -19,11 +19,9 @@
 /**
  * Filter rules storage adapter
  */
-var RulesStorage = exports.RulesStorage = {
-
-	LINE_BREAK: '\n',
-
-	read: function (path, callback) {
+var RulesStorage = exports.RulesStorage = (function() {
+    
+    var read = function (path, callback) {
 		try {
 			var value = LS.getItem(path);
 			var lines = [];
@@ -34,20 +32,26 @@ var RulesStorage = exports.RulesStorage = {
 		} catch (ex) {
 			callback(ex);
 		}
-	},
-
-	write: function (path, data, callback) {
-		var value = data.join(RulesStorage.LINE_BREAK);
+	};
+    
+    var write = function (path, data, callback) {
+		var value = data.join('\n');
 		try {
 			LS.setItem(path, value);
 			callback();
 		} catch (ex) {
 			callback(ex);
 		}
-	},
-
-	remove: function (path, successCallback) {
+	};
+    
+    var remove = function (path, successCallback) {
 		LS.removeItem(path);
 		successCallback();
-	}
-};
+	};
+    
+    return {
+        write: write,
+        read: read,
+        remove: remove
+    };
+})();
