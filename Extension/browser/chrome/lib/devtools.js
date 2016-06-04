@@ -15,39 +15,10 @@
  * along with Adguard Browser Extension.  If not, see <http://www.gnu.org/licenses/>.
  */
 /* global chrome */
-(function () {
 
-    /**
-     * This function gonna be executed in inspected page's context
-     * Selected element can be accessed through $0
-     */
-    var updateSidebarPanelElements = function () {
-        console.log($0);
-    };
-
-    //TODO: Try to move it to first cell
-    chrome.devtools.panels.elements.createSidebarPane("Adguard",
-        function (sidebar) {
-            "use strict";
-            function updateSidebarPanel() {
-                //pass a function as a string that will be executed later on by chrome
-                //sidebar.setExpression("(" + page_getKnockoutInfo.toString() + ")("+shouldDoKOtoJS+")");
-
-                chrome.devtools.inspectedWindow.eval("(" + updateSidebarPanelElements.toString() + ")()");
-            }
-
-            sidebar.setPage("pages/devtools-elements-sidebar.html");
-
-            //initial
-            updateSidebarPanel();
-            //attach to chrome events so that the sidebarPane refreshes (contains up to date info)
-            chrome.devtools.panels.elements.onSelectionChanged.addListener(updateSidebarPanel);
-            sidebar.onShown.addListener(updateSidebarPanel);
-
-            //listen to a message send by the background page (when the chrome windows's focus changes)
-            //chrome.extension.onMessage.addListener(function(request, sender, sendResponse) {
-            //    updateSidebarPanel();
-            //});
-        });
-
-})();
+//TODO: Try to move it to first cell
+chrome.devtools.panels.elements.createSidebarPane("Adguard",
+    function (sidebar) {
+        sidebar.setPage("pages/devtools-elements-sidebar.html");
+    }
+);
