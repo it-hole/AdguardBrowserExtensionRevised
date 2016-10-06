@@ -42,7 +42,7 @@ adguard.tabsImpl = adguard.tabsImpl || (function () {
 
 	})();
 
-adguard.tabs = (function (tabsImpl) {
+adguard.tabs = exports.TabsApi = (function (tabsImpl) {
 
 	'use strict';
 
